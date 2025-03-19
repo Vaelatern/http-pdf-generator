@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.18 AS development
+FROM docker.io/alpine:3.21 AS development
 RUN apk add --no-cache python3 py3-pip py3-pillow py3-cffi py3-brotli gcc musl-dev python3-dev pango &&\
 	python3 -m venv /venv &&\
 	/venv/bin/pip install weasyprint flask pyyaml
