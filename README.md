@@ -39,16 +39,58 @@ and then translates it with libreoffice's conversion ability into a PDF.
 
 ## Quickstart
 
+Build the HTML worker
+
 ```
-$ podman build html/ --tag=http-pdf-generator:$(date -I)
-$ podman build docx/ --tag=docx-pdf-generator:$(date -I)
-$ podman run -p 5000:5000 http-pdf-generator:$(date -I) &
-$ podman run -p 5001:5000 docx-pdf-generator:$(date -I) &
-$ wget http://localhost:5000/pdf/read-me-html.pdf
-$ wget http://localhost:5001/pdf/read-me-docx.pdf
-$ wget -O read-me-with-templates.pdf http://localhost:5000/pdf/read-me-with-templates-html.pdf?yaml='{"name":"New User","render_type":"create","success":true,"magic":true}'
-$ wget -O read-me-with-templates.pdf http://localhost:5001/pdf/read-me-with-templates-docx.pdf?yaml='{"name":"New User","render_type":"create","success":true,"magic":true}'
-$ python3 ./html/testing.py this-is-a-post-example.pdf Woah madly
+podman build html/ --tag=html-pdf-generator:$(date -I)
+```
+
+Build the Docx worker
+
+```
+podman build docx/ --tag=docx-pdf-generator:$(date -I)
+```
+
+Run the HTML worker
+
+```
+podman run -p 5000:5000 html-pdf-generator:$(date -I) &
+```
+
+Run the Docx worker
+
+```
+podman run -p 5001:5000 docx-pdf-generator:$(date -I) &
+```
+
+Trial run the html worker
+
+```
+wget http://localhost:5000/pdf/read-me-html.pdf
+```
+
+Trial run the docx worker
+
+```
+wget http://localhost:5001/pdf/read-me-docx.pdf
+```
+
+Try the html worker with template arguments
+
+```
+wget -O read-me-with-templates.pdf http://localhost:5000/pdf/read-me-with-templates-html.pdf?yaml='{"name":"New User","render_type":"create","success":true,"magic":true}'
+```
+
+Try the docx worker with template arguments
+
+```
+wget -O read-me-with-templates.pdf http://localhost:5001/pdf/read-me-with-templates-docx.pdf?yaml='{"name":"New User","render_type":"create","success":true,"magic":true}'
+```
+
+Test a post-example for html from code
+
+```
+python3 ./html/testing.py this-is-a-post-example.pdf Woah madly
 ```
 
 Then open `read-me-html.pdf`, `read-me-docx.pdf`,
